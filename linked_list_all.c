@@ -23,6 +23,23 @@ void print_ll(node *head){
     printf("NULL \n");
 }
 
+node *createll(node *head){
+    int i,n;
+    node *temp=head;
+    printf("enter no. of node wanna enter excluding the head(treated as node 0): \n");
+    scanf("%d",&n);
+    for(i=0;i<=n;i++){
+        printf("enter data for Node%d : \n",i);
+        scanf("%d",temp->data);
+        temp=temp->next;
+    }
+    temp=head;
+    while(n){
+        temp=
+        n--;
+    }
+}
+
 int main(){
     node *head;
     head=createnode(10);
