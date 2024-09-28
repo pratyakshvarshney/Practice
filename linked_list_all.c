@@ -1,11 +1,13 @@
 #include<stdio.h>
 #include<stdlib.h>
 
+//ll definition
 typedef struct node{
     int data;
     struct node *next;
 }node;
 
+//node definition
 node *createnode(int data){
     node *newnode=(node *)malloc(sizeof(node));
     newnode->data=data;
@@ -13,6 +15,7 @@ node *createnode(int data){
     return newnode;
 }
 
+//printing ll
 void print_ll(node *head){
     printf("Linked List is: \n");
     node *temp=head;
@@ -23,30 +26,167 @@ void print_ll(node *head){
     printf("NULL \n");
 }
 
-node *createll(node *head){
-    int i,n;
+//searching an elementin ll
+void search(node *head,int item){
     node *temp=head;
-    printf("enter no. of node wanna enter excluding the head(treated as node 0): \n");
-    scanf("%d",&n);
-    for(i=0;i<=n;i++){
-        printf("enter data for Node%d : \n",i);
-        scanf("%d",temp->data);
+    int count=0;
+    node *loc;
+    while(temp){
+        if(temp->data==item){
+            printf("search successful \n");
+            return;
+        }
+        else
+            temp=temp->next;
+    }
+    printf("search unsuccessful \n");
+}
+
+//creating ll
+node *createll(node *head) {
+    node *temp, *newNode;
+    int item;
+    head = NULL;
+    printf("Enter data to be entered (enter 999 to stop): \n");
+    scanf("%d", &item);
+    while (item != 999) {
+        newNode = createnode(item);
+        if (head == NULL) {
+            head = newNode;  
+            temp = head;
+        } 
+        else {
+            temp->next = newNode; 
+            temp = newNode;    
+        }
+        printf("Enter data to be entered (enter 10 to stop): \n");
+        scanf("%d", &item);
+    }
+    return head;
+}
+
+//insert element at beginning
+node *insert_begin(node *head){
+    node *newnode;
+    int item;
+    printf("enter data to be inserted in new node at beginning: \n");
+    scanf("%d",&item);
+    newnode=createnode(item);
+    newnode->next=head;
+    head=newnode;
+    return(head);
+}
+
+//insert element at end
+node *insert_end(node *head){
+    node *newnode,*temp=head;
+    int item;
+    printf("enter data to be inserted in new node at end: \n");
+    scanf("%d",&item);
+    newnode=createnode(item);
+    if(head==NULL){
+        head=newnode;
+    }
+    else{
+        while(temp->next){
+            temp=temp->next;
+        }
+        temp->next=newnode;
+    }
+    return(head);
+}
+
+//insert element after a given value
+node *insert_after(node *head){
+    node *newnode,*temp=head;
+    int item,value;
+    
+    printf("enter value of a particular node after which newnode is to be inserted: \n");
+    scanf("%d",&value);
+    
+    printf("enter data to be inserted in node after a particular node containing certain value: \n");
+    scanf("%d",&item);
+    newnode=createnode(item);
+    
+    if(head->data==value){
+        newnode->next = head;
+        head = newnode;
+        return head;
+    }
+    
+    else{
+        while(temp!=NULL && temp->next->data!=value){
+            temp=temp->next;
+        }
+        
+        if(temp==NULL){
+            printf("value not found \n");
+        }
+        else{
+            newnode->next=temp->next;
+            temp->next=newnode;
+        }
+    }    
+    
+    return(head);
+}
+
+//insert element before a given value
+node *insert_before(node *head){
+    node *newnode,*temp=head;
+    int item,value;
+    
+    printf("enter value of a particular node before which newnode is to be inserted: \n");
+    scanf("%d",&value);
+    
+    printf("enter data to be inserted in node before a particular node containing certain value: \n");
+    scanf("%d",&item);
+    newnode=createnode(item);
+    
+    while(temp!=NULL && temp->next->data!=value){
         temp=temp->next;
     }
-    temp=head;
-    while(n){
-        temp=
-        n--;
+    
+    if(temp==NULL){
+        printf("value not found \n");
     }
+    else{
+        newnode->next=temp->next;
+        temp->next=newnode;
+    }
+    
+    return(head);
+    
 }
 
 int main(){
-    node *head;
-    head=createnode(10);
-    head->next=createnode(20);
-    head->next->next=createnode(30);
-    
+    node *temp_head,*head;
+    int data_search;
+    head=createll(temp_head);
     print_ll(head);
+    
+    // searching an element
+    // pritnf("enter data to be searched: \n");
+    // scanf("%d",&data_search)
+    // search(head,data_search);
+
+    // insert at beginning
+    // head=insert_begin(head);
+    // print_ll(head);
+    
+    // insert at end
+    // head=insert_end(head);
+    // print_ll(head);
+    
+    // insert after a particular node
+    // head=insert_after(head);
+    // print_ll(head);
+    
+    // insert before a particular node
+    head=insert_before(head);
+    print_ll(head);
+    
+    
     
     return 0;
 }
