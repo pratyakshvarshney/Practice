@@ -240,37 +240,37 @@ int main(){
     print_ll(head);
     
     // searching an element
-    // pritnf("enter data to be searched: \n");
-    // scanf("%d",&data_search)
-    // search(head,data_search);
+    pritnf("enter data to be searched: \n");
+    scanf("%d",&data_search)
+    search(head,data_search);
 
     // insert at beginning
-    // head=insert_begin(head);
-    // print_ll(head);
+    head=insert_begin(head);
+    print_ll(head);
     
     // insert at end
-    // head=insert_end(head);
-    // print_ll(head);
+    head=insert_end(head);
+    print_ll(head);
     
     // insert after a particular node
-    // head=insert_after(head);
-    // print_ll(head);
+    head=insert_after(head);
+    print_ll(head);
     
     // insert before a particular node
-    // head=insert_before(head);
-    // print_ll(head);
+    head=insert_before(head);
+    print_ll(head);
     
     // delete from beginning
-    // head=delete_begin(head);
-    // print_ll(head);
+    head=delete_begin(head);
+    print_ll(head);
     
     // delete from end
-    // head=delete_end(head);
-    // print_ll(head);
+    head=delete_end(head);
+    print_ll(head);
     
     // delete if value is known
-    // head=delete_loc(head);
-    // print_ll(head);
+    head=delete_loc(head);
+    print_ll(head);
     
     // reverse the ll
     head=reverse_ll(head);
