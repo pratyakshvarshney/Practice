@@ -143,20 +143,94 @@ node *insert_before(node *head){
     scanf("%d",&item);
     newnode=createnode(item);
     
-    while(temp!=NULL && temp->next->data!=value){
-        temp=temp->next;
-    }
-    
-    if(temp==NULL){
-        printf("value not found \n");
+    if(head->data==value){
+        newnode->next=head;
+        head=newnode;
+        return head;
     }
     else{
-        newnode->next=temp->next;
-        temp->next=newnode;
+        while(temp!=NULL && temp->next->data!=value){
+            temp=temp->next;
+        }
+        
+        if(temp==NULL){
+            printf("value not found \n");
+        }
+        else{
+            newnode->next=temp->next;
+            temp->next=newnode;
+        }
     }
-    
     return(head);
-    
+}
+
+//delete element from beginning
+node *delete_begin(node *head){
+    node *temp=head;
+    head=temp->next;
+    free(temp);
+    return head;
+}
+
+//delete element from end
+node *delete_end(node *head){
+    node *save,*temp=head;
+    if(head==NULL){
+        return head;
+    }
+    else if(head->next==NULL) {
+        head=NULL;
+        free(temp);
+        return head;
+    }
+    else{
+        while(temp->next->next){
+            temp=temp->next;
+        }
+        save=temp->next;
+        temp->next=NULL;
+        free(save);
+        return head;
+    }
+}
+
+//delete element if it's known
+node *delete_loc(node *head){
+    node *save,*temp=head;
+    int value;
+    printf("enter value to be deleted: \n");
+    scanf("%d",&value);
+    if(head==NULL)
+        return head;
+    else if(temp->data==value){
+        head=head->next;
+        free(temp);
+        return head;
+    }
+    else{
+        while(temp){
+            if(temp->next->data==value){
+                save=temp->next;
+                temp->next=temp->next->next;
+                free(save);
+                return head;
+            }
+            temp=temp->next;
+        }
+    }
+}
+
+//reverse the ll
+node *reverse_ll(node *head){
+    node *prev=NULL,*current=head,*next;
+    while(current){
+        next=current->next;
+        current->next=prev;
+        prev=current;
+        current=next;
+    }
+    head=prev;
+    return head;
 }
 
 int main(){
@@ -183,10 +257,24 @@ int main(){
     // print_ll(head);
     
     // insert before a particular node
-    head=insert_before(head);
+    // head=insert_before(head);
+    // print_ll(head);
+    
+    // delete from beginning
+    // head=delete_begin(head);
+    // print_ll(head);
+    
+    // delete from end
+    // head=delete_end(head);
+    // print_ll(head);
+    
+    // delete if value is known
+    // head=delete_loc(head);
+    // print_ll(head);
+    
+    // reverse the ll
+    head=reverse_ll(head);
     print_ll(head);
-    
-    
-    
+
     return 0;
 }
