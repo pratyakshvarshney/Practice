@@ -27,8 +27,11 @@ void print_ll(node *head){
 }
 
 //searching an elementin ll
-void search(node *head,int item){
+void search(node *head){
     node *temp=head;
+    int item;
+    pritnf("enter data to be searched: \n");
+    scanf("%d",&item);
     int count=0;
     node *loc;
     while(temp){
@@ -234,15 +237,15 @@ node *reverse_ll(node *head){
 }
 
 int main(){
-    node *temp_head,*head;
-    int data_search;
-    head=createll(temp_head);
+    node *head;
+
+    // creating ll
+    head=createll(head);
     print_ll(head);
     
     // searching an element
-    pritnf("enter data to be searched: \n");
-    scanf("%d",&data_search)
-    search(head,data_search);
+    head=search(head);
+    print_ll(head);
 
     // insert at beginning
     head=insert_begin(head);
