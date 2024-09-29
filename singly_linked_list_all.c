@@ -30,7 +30,7 @@ void print_ll(node *head){
 void search(node *head){
     node *temp=head;
     int item;
-    pritnf("enter data to be searched: \n");
+    printf("enter data to be searched: \n");
     scanf("%d",&item);
     int count=0;
     node *loc;
