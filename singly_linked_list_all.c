@@ -62,7 +62,7 @@ node *createll(node *head) {
             temp->next = newNode; 
             temp = newNode;    
         }
-        printf("Enter data to be entered (enter 10 to stop): \n");
+        printf("Enter data to be entered (enter 999 to stop): \n");
         scanf("%d", &item);
     }
     return head;
