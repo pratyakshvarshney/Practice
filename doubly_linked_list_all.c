@@ -22,7 +22,7 @@ void print_ll(node *head){
     printf("Linked List in forward direction is: \n");
     node *temp=head;
     while(temp){
-        printf("%d->",temp->data);
+        printf("%d<->",temp->data);
         temp=temp->next;
     }
     printf("NULL \n");
@@ -33,7 +33,7 @@ void print_ll_backward(node *tail){
     printf("Linked List in backward direction is: \n");
     node *temp=tail;
     while(temp){
-        printf("%d->",temp->data);
+        printf("%d<->",temp->data);
         temp=temp->prev;
     }
     printf("NULL \n");
@@ -302,23 +302,17 @@ llc delete_loc(node *head){
 llc reverse_ll(node *head){
     llc lloc;
     node *prev=NULL,*current=head,*next;
-    node *t_prev=NULL,*t_current=lloc.tail,*t_next;
     while(current){
         next=current->next;
         current->next=prev;
+        current->prev=next;
         prev=current;
         current=next;
     }
     head=prev;
-     while(t_current){
-        t_prev=t_current->prev;
-        t_currrent->prev=t_next;
-        t_next=t_current;
-        t_current=t_prev;
-    }
-    tail=t_next;
-    lloc.head=head;
-    lloc.tail=tail;
+    lloc.head=lloc.tail=head;
+    while(lloc.tail && lloc.tail->next)
+        lloc.tail=lloc.tail->next;
     return lloc;
 }
 
