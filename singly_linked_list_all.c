@@ -118,7 +118,7 @@ node *insert_after(node *head){
     }
     
     else{
-        while(temp!=NULL && temp->next->data!=value){
+        while(temp!=NULL && temp->data!=value){
             temp=temp->next;
         }
         
