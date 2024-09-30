@@ -244,8 +244,7 @@ int main(){
     print_ll(head);
     
     // searching an element
-    head=search(head);
-    print_ll(head);
+    search(head);
 
     // insert at beginning
     head=insert_begin(head);
