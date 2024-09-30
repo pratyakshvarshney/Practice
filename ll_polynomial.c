@@ -55,12 +55,24 @@ node *createll(node *head){
     return head;
 }
 
+node *addpoly(node *head1,node *head2){
+    
+}
+
 int main(){
-    node *head;
+    node *head1,*head2,*add;
     
-    head=createll(head);
-    printll(head);
+    head1=createll(head1);
+    head2=createll(head2);
     
+    printf("1st");
+    printll(head1);
+
+    printf("2nd");
+    printll(head2);
+    
+    add=addpoly(head1,head2);
+    printll(add);
     
 
     return 0;
