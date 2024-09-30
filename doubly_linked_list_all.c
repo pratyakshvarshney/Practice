@@ -66,16 +66,17 @@ typedef struct ll_components{
 
 //creating ll
 llc createll(node *head) {
-    node *temp, *newnode ;
+    node *temp=head, *newnode ;
     llc lloc;
     int item;
     head = NULL;
+    lloc.tail=NULL;
     printf("Enter data to be entered (enter 999 to stop): \n");
     scanf("%d", &item);
     while (item != 999) {
         newnode = createnode(item);
         if (head == NULL) {
-            head = newnode;  
+            head = lloc.tail= newnode;  
             temp = head;
         } 
         else {
@@ -99,13 +100,16 @@ node *insert_begin(node *head){
     scanf("%d",&item);
     newnode=createnode(item);
     newnode->next=head;
+    newnode->prev=NULL;
+    head->prev=newnode;
     head=newnode;
     return(head);
 }
 
 //insert element at end
-node *insert_end(node *head){
+llc insert_end(node *head){
     node *newnode,*temp=head;
+    llc lloc;
     int item;
     printf("enter data to be inserted in new node at end: \n");
     scanf("%d",&item);
@@ -118,12 +122,16 @@ node *insert_end(node *head){
             temp=temp->next;
         }
         temp->next=newnode;
+        newnode->prev=temp;
     }
-    return(head);
+    lloc.head=head;
+    lloc.tail=newnode;
+    return(lloc);
 }
 
 //insert element after a given value
-node *insert_after(node *head){
+llc insert_after(node *head){
+    llc lloc;
     node *newnode,*temp=head;
     int item,value;
     
@@ -135,13 +143,18 @@ node *insert_after(node *head){
     newnode=createnode(item);
     
     if(head->data==value){
-        newnode->next = head;
-        head = newnode;
-        return head;
+        newnode->next = head->next;
+        newnode->prev=head;
+        head->next=newnode;
+        if(newnode->next)
+            newnode->next->prev=newnode;
+        lloc.head=head;
+        lloc.tail=newnode;
+        return lloc;
     }
     
     else{
-        while(temp!=NULL && temp->next->data!=value){
+        while(temp && temp->data!=value){
             temp=temp->next;
         }
         
@@ -150,11 +163,14 @@ node *insert_after(node *head){
         }
         else{
             newnode->next=temp->next;
+            newnode->prev=temp;
+            if(temp->next)
+                temp->next->prev=newnode;
             temp->next=newnode;
         }
+        lloc.head=head;
     }    
-    
-    return(head);
+    return(lloc);
 }
 
 //insert element before a given value
@@ -171,6 +187,8 @@ node *insert_before(node *head){
     
     if(head->data==value){
         newnode->next=head;
+        newnode->prev=NULL;
+        head->prev=newnode;
         head=newnode;
         return head;
     }
@@ -184,6 +202,8 @@ node *insert_before(node *head){
         }
         else{
             newnode->next=temp->next;
+            temp->next->prev=newnode;
+            newnode->prev=temp;
             temp->next=newnode;
         }
     }
@@ -191,23 +211,35 @@ node *insert_before(node *head){
 }
 
 //delete element from beginning
-node *delete_begin(node *head){
-    node *temp=head;
-    head=temp->next;
-    free(temp);
-    return head;
+llc delete_begin(node *head){
+    llc lloc;
+    if(head->next==NULL){
+        lloc.head=NULL;
+        lloc.tail=NULL;
+        return lloc;
+    }
+    else{
+        node *temp=head;
+        head=head->next;
+        head->prev=NULL;
+        lloc.head=head;
+        free(temp);
+        return lloc;
+    }
 }
 
 //delete element from end
-node *delete_end(node *head){
+llc delete_end(node *head){
+    llc lloc;
     node *save,*temp=head;
     if(head==NULL){
-        return head;
+        lloc.head=lloc.tail=NULL;
+        return lloc;
     }
     else if(head->next==NULL) {
-        head=NULL;
+        lloc.head=lloc.tail=NULL;
         free(temp);
-        return head;
+        return lloc;
     }
     else{
         while(temp->next->next){
@@ -215,31 +247,51 @@ node *delete_end(node *head){
         }
         save=temp->next;
         temp->next=NULL;
+        lloc.tail=temp;
         free(save);
-        return head;
+        return lloc;
     }
 }
 
 //delete element if it's known
-node *delete_loc(node *head){
+llc delete_loc(node *head){
+    llc lloc;
     node *save,*temp=head;
     int value;
     printf("enter value to be deleted: \n");
     scanf("%d",&value);
-    if(head==NULL)
-        return head;
+    if(head==NULL){
+        lloc.head=lloc.tail=NULL;
+        return lloc;
+    }
     else if(temp->data==value){
-        head=head->next;
-        free(temp);
-        return head;
+        if(temp->next==NULL){
+            lloc.head=lloc.tail=NULL;
+            return lloc;
+        }
+        else{
+            head=head->next;
+            head->prev=NULL;
+            free(temp);
+            lloc.head=head;
+            return lloc;
+        }
     }
     else{
         while(temp){
             if(temp->next->data==value){
                 save=temp->next;
-                temp->next=temp->next->next;
+                temp->next=save->next;
+                if(save->next==NULL){
+                    temp->next=NULL;
+                    lloc.head=head;
+                    lloc.tail=temp;
+                    return lloc;
+                }
+                save->next->prev=temp;
                 free(save);
-                return head;
+                lloc.head=head;
+                return lloc;
             }
             temp=temp->next;
         }
@@ -247,8 +299,10 @@ node *delete_loc(node *head){
 }
 
 //reverse the ll
-node *reverse_ll(node *head){
+llc reverse_ll(node *head){
+    llc lloc;
     node *prev=NULL,*current=head,*next;
+    node *t_prev=NULL,*t_current=lloc.tail,*t_next;
     while(current){
         next=current->next;
         current->next=prev;
@@ -256,7 +310,16 @@ node *reverse_ll(node *head){
         current=next;
     }
     head=prev;
-    return head;
+     while(t_current){
+        t_prev=t_current->prev;
+        t_currrent->prev=t_next;
+        t_next=t_current;
+        t_current=t_prev;
+    }
+    tail=t_next;
+    lloc.head=head;
+    lloc.tail=tail;
+    return lloc;
 }
 
 int main(){
@@ -270,41 +333,61 @@ int main(){
     print_ll(head);
     print_ll_backward(tail);
     
-    // // searching an element
-    // head=search(head);
-    // print_ll(head);
+    // searching an element
+    search(head);
 
-    // // insert at beginning
-    // head=insert_begin(head);
-    // print_ll(head);
+    // insert at beginning
+    head=insert_begin(head);
+    print_ll(head);
+    print_ll_backward(tail);
     
-    // // insert at end
-    // head=insert_end(head);
-    // print_ll(head);
+    // insert at end
+    lloc=insert_end(head);
+    head=lloc.head;
+    tail=lloc.tail;
+    print_ll(head);
+    print_ll_backward(tail);
     
-    // // insert after a particular node
-    // head=insert_after(head);
-    // print_ll(head);
+    // insert after a particular node if value is known
+    lloc=insert_after(head);
+    head=lloc.head;
+    tail=lloc.tail;
+    print_ll(head);
+    print_ll_backward(tail);
     
-    // // insert before a particular node
-    // head=insert_before(head);
-    // print_ll(head);
+    // insert before a particular node if value is known
+    head=insert_before(head);
+    print_ll(head);
+    print_ll_backward(tail);
     
-    // // delete from beginning
-    // head=delete_begin(head);
-    // print_ll(head);
+    // delete from beginning
+    lloc=delete_begin(head);
+    head=lloc.head;
+    tail=lloc.tail;
+    print_ll(head);
+    print_ll_backward(tail);
     
-    // // delete from end
-    // head=delete_end(head);
-    // print_ll(head);
+    // delete from end
+    lloc=delete_end(head);
+    head=lloc.head;
+    tail=lloc.tail;
+    print_ll(head);
+    print_ll_backward(tail);
     
-    // // delete if value is known
-    // head=delete_loc(head);
-    // print_ll(head);
+    
+    // delete if value is known
+    lloc=delete_loc(head);
+    head=lloc.head;
+    tail=lloc.tail;
+    print_ll(head);
+    print_ll_backward(tail);
     
     // // reverse the ll
-    // head=reverse_ll(head);
-    // print_ll(head);
+    lloc=reverse_ll(head);
+    head=lloc.head;
+    tail=lloc.tail;
+    print_ll(head);
+    print_ll_backward(tail);
 
     return 0;
 }
