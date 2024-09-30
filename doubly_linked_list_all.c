@@ -264,11 +264,11 @@ int main(){
 
     // creating ll
     llc lloc;
+    lloc=createll(head);
     head=lloc.head;
     tail=lloc.tail;
-    lloc=createll(head);
-    print_ll(lloc.head);
-    print_ll_backward(lloc.tail);
+    print_ll(head);
+    print_ll_backward(tail);
     
     // // searching an element
     // head=search(head);
