@@ -7,12 +7,14 @@ typedef struct polynode{
     struct polynode *next;
 }node;
 
-void print_ll(node *head){
+void printll(node *head){
     node *temp=head;
-    printf("polynomial linked list is: \n");
+    printf("polynomial linked list as coefficient , its exponent is: \n");
     while(temp){
-        printf("%d->")
+        printf("%d,%d->",temp->coeff,temp->exp);
+        temp=temp->next;
     }
+    printf("NULL \n");
 }
 
 node *createnode(int c,int e){
@@ -23,6 +25,43 @@ node *createnode(int c,int e){
     return newnode;
 }
 
-node *create_ll(node *head){
+node *createll(node *head){
+    node *temp, *newnode;
+    int c,e;
+    head = NULL;
+    printf("Enter coefficient to be entered (enter 999 to stop): \n");
+    scanf("%d", &c);
+    if(c!=999){
+        printf("Enter corresponding exponents for coefficient entered: \n");
+        scanf("%d", &e);
+    }
+    while (c != 999) {
+        newnode = createnode(c,e);
+        if (head == NULL) {
+            head = newnode;  
+            temp = head;
+        } 
+        else {
+            temp->next = newnode; 
+            temp = newnode;    
+        }
+        printf("Enter coefficient to be entered (enter 999 to stop): \n");
+        scanf("%d", &c);
+        if(c!=999){
+            printf("Enter corresponding exponents for coefficient entered: \n");
+            scanf("%d", &e);
+        }
+    }
+    return head;
+}
+
+int main(){
+    node *head;
     
+    head=createll(head);
+    printll(head);
+    
+    
+
+    return 0;
 }
