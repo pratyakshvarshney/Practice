@@ -47,19 +47,19 @@ void search(node *head){
 
 //creating ll
 node *createll(node *head) {
-    node *temp, *newNode;
+    node *temp, *newnode;
     int item;
     head = NULL;
     printf("Enter data to be entered (enter 999 to stop): \n");
     scanf("%d", &item);
     while (item != 999) {
-        newNode = createnode(item);
+        newnode = createnode(item);
         if (head == NULL) {
-            head = newNode;  
+            head = newnode;  
             temp = head;
         } 
         else {
-            temp->next = newNode; 
+            temp->next = newnode; 
             temp = newNode;    
         }
         printf("Enter data to be entered (enter 999 to stop): \n");
