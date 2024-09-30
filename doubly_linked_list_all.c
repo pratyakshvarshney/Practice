@@ -65,7 +65,7 @@ typedef struct ll_components{
 }llc;
 
 //creating ll
-node *createll(node *head) {
+llc createll(node *head) {
     node *temp, *newnode ;
     llc lloc;
     int item;
@@ -264,9 +264,9 @@ int main(){
 
     // creating ll
     llc lloc;
-    lloc=createll();
     head=lloc.head;
-    tail
+    tail=lloc.tail;
+    lloc=createll(head);
     print_ll(lloc.head);
     print_ll_backward(lloc.tail);
     
