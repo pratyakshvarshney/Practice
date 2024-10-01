@@ -1,109 +1,70 @@
+//isfull is not defined as use of linked list disable the size limit barrier to much extend
+
 #include<stdio.h>
 #include<stdlib.h>
 #include<stdbool.h>
 
-//ll definition
+//stack definition
 typedef struct stack{
     int data;
     struct stack*next;
 }stack;
 
-//stackdefinition
+//node definition
 stack*createnode(int data){
-    stack*newnode=(stack*)malloc(sizeof(node));
+    stack*newnode=(stack*)malloc(sizeof(stack));
     newnode->data=data;
     newnode->next=NULL;
     return newnode;
 }
 
-//printing ll
-void print_ll(stack*head){
-    printf("Linked List is: \n");
-    stack*temp=head;
-    while(temp){
-        printf("%d->",temp->data);
-        temp=temp->next;
-    }
-    printf("NULL \n");
+bool isempty(stack *top){
+    return top==NULL;
 }
 
-//creating ll
-stack*createll(stack*head) {
-    stack*temp, *newnode;
-    int item;
-    head = NULL;
-    printf("Enter data to be entered (enter 999 to stop): \n");
-    scanf("%d", &item);
-    while (item != 999) {
-        newnode= createnode(item);
-        if (head == NULL) {
-            head = newnode;  
-            temp = head;
-        } 
-        else {
-            temp->next = newnode; 
-            temp = newNode;    
-        }
-        printf("Enter data to be entered (enter 999 to stop): \n");
-        scanf("%d", &item);
-    }
-    return head;
+void push(stack **top,int value){
+    stack *newnode=createnode(value);
+    newnode->next=*top;
+    *top=newnode;
+    printf("value %d is pushed into the stack \n",value);
 }
 
-int size;
-stack*head;
-
-bool isempty(){
-    return top==-1;
-}
-
-bool isfull(){
-    return top==size-1;
-}
-
-void push(int value){
-    if(isfull()){
-        printf("overflow condtition: \n");
-        return;
-    }
-    stack[++top]=value;
-}
-
-int pop(){
-    if(isempty()){
-        printf("underflow condition: \n");
-        return -1;
-    }
-    return stack[--top];
-}
-
-void peek(){
-    if(isempty()){
+void pop(stack **top){
+    if(isempty(*top)){
         printf("underflow condition: \n");
         return ;
     }
-    printf("peeked element is: %d \n",stack[top]);
+    stack *temp=*top;
+    int pop_value=temp->data;
+    (*top)=(*top)->next;
+    free(temp);
+    printf("poped value is: %d \n",pop_value);
 }
 
-void display(){
-    printf("stack: \n");
-    if(isempty()){
-        printf("is empty  \n");
+void peek(stack *top){
+    if(isempty(top)){
+        printf("underflow condition: \n");
+        return ;
+    }
+    int peek_value=top->data;
+    printf("peeked value is: %d \n",peek_value);
+}
+
+void display(stack *top){
+    if (isempty(top)) {
+        printf("Stack is empty.\n");
         return;
     }
-    for(int i=top;i>=0;i--){
-        printf("%d \n",stack[i]);
+    printf("Stack elements (top to bottom):\n");
+    stack*temp=top;
+    while(temp){
+        printf("%d \n",temp->data);
+        temp=temp->next;
     }
 }
 
 int main(){
-     printf("Enter the size of the stack (max 3): ");
-    scanf("%d", &size);
-    if (size <= 0 || size > 100) {
-        printf("Invalid stack size. Please enter a size between 1 and 100.\n");
-        return 1; // to represent error
-    }
-    
+    stack *top;
     int choice,value;
     while (true) {
         printf("\nStack Operations Menu:\n");
@@ -119,16 +80,16 @@ int main(){
             case 1: 
                 printf("Enter a value to push: ");
                 scanf("%d", &value);
-                push(value);
+                push(&top,value);
                 break;
             case 2: 
-                pop();
+                pop(&top);
                 break;
             case 3:
-                peek();
+                peek(top);
                 break;
             case 4: 
-                display();
+                display(top);
                 break;
             case 5:
                 printf("Exiting program.\n");
