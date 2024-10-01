@@ -11,7 +11,7 @@ void printll(node *head){
     node *temp=head;
     printf("polynomial linked list as coefficient , its exponent is: \n");
     while(temp){
-        printf("%d,%d->",temp->coeff,temp->exp);
+        printf("(%d,%d)->",temp->coeff,temp->exp);
         temp=temp->next;
     }
     printf("NULL \n");
@@ -56,24 +56,72 @@ node *createll(node *head){
 }
 
 node *addpoly(node *head1,node *head2){
-    
+    node *newnode,*result,*temp;
+    newnode=result=temp=NULL;
+    while(head1 && head2){
+        if(head1->exp==head2->exp){
+            newnode=createnode(((head1->coeff)+(head2->coeff)),head1->exp);
+            head1=head1->next;
+            head2=head2->next;
+        }
+        else if(head1->exp > head2->exp){
+            newnode=createnode(head1->coeff,head1->exp);
+            head1=head1->next;
+        }
+        else{
+            newnode=createnode(head2->coeff,head2->exp);
+            head2=head2->next;
+        }
+        if(result==NULL){
+            result=newnode;
+        }
+        else{
+            temp->next=newnode;
+        }
+        temp=newnode;
+    }
+    while(head1){
+            newnode=createnode(head1->coeff,head1->exp);
+            if(result==NULL){
+                result=newnode;
+            }
+            else{
+                temp->next=newnode;
+            }
+            temp=newnode;
+            head1=head1->next;
+        }
+     while(head2){
+            newnode=createnode(head2->coeff,head2->exp);
+            if(result==NULL){
+                result=newnode;
+            }
+            else{
+                temp->next=newnode;
+            }
+            temp=newnode;
+            head2=head2->next;
+        }
+    return result;
 }
 
 int main(){
     node *head1,*head2,*add;
     
+    printf("For 1st polynomial \n");
     head1=createll(head1);
+    printf("For 2nd polynomial \n");
     head2=createll(head2);
     
-    printf("1st");
+    printf("1st ");
     printll(head1);
 
-    printf("2nd");
+    printf("2nd ");
     printll(head2);
     
     add=addpoly(head1,head2);
+    pribtf("sum of ");
     printll(add);
-    
 
     return 0;
 }
