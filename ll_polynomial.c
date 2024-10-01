@@ -120,7 +120,7 @@ int main(){
     printll(head2);
     
     add=addpoly(head1,head2);
-    pribtf("sum of ");
+    printf("sum of ");
     printll(add);
 
     return 0;
