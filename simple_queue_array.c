@@ -1,21 +1,22 @@
 #include<stdio.h>
 #include<stdbool.h>
-#define max 100
 
-int queue[max];
-int front=rear=-1;
+int queue[100];
+int size;
+int front=-1;
+int rear=-1;
 
 bool isfull(){
     return rear==size-1;
 }
 
 bool isempty(){
-    return front=-1;
+    return front==-1;
 }
 
 void enqueue(int value){
     if(isfull()){
-        pritnf("queue is full \n");
+        printf("queue is full \n");
         return;
     }
     if(isempty())
@@ -49,11 +50,48 @@ void display(){
     }
     printf("Queue: \n");
     for(int i=front;i<=rear;i++){
-        pritnf("%d ",queue[i]);
+        printf("%d ",queue[i]);
     }
     printf("\n");
 }
 
 int main(){
+    printf("Enter the size of the queue (max 100): ");
+    scanf("%d", &size);
+    if (size <= 0 || size > 100) {
+        printf("Invalid stack size. Please enter a size between 1 and 100.\n");
+        return 1; // to represent error
+    }
     
+    int choice,value;
+    while (true) {
+        printf("\nQueue Operations Menu:\n");
+        printf("1. Enqueue\n");
+        printf("2. Dequeue\n");
+        printf("3. Display\n");
+        printf("4. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1: 
+                printf("Enter a value to enqueue: ");
+                scanf("%d", &value);
+                enqueue(value);
+                break;
+            case 2: 
+                dequeue();
+                break;
+            case 3:
+                display();
+                break;
+            case 4:
+                printf("Exiting program.\n");
+                return 0;
+            default:
+                printf("Invalid choice. Please try again.\n");
+        }
+    }
+
+    return 0;
 }
