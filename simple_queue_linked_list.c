@@ -8,6 +8,8 @@ typedef struct queue{
 }queue;
 
 queue *front,*rear;
+front=NULL;
+rear=NULL;
 
 //node definition
 queue *createnode(int data){
@@ -18,11 +20,11 @@ queue *createnode(int data){
 }
 
 //printing queue
-void print_ll(node *front){
+void display(node *front){
     printf("Queue is: \n");
     node *temp=front;
     while(temp){
-        printf("%d->",temp->data);
+        printf("%d ",temp->data);
         temp=temp->next;
     }
 }
@@ -31,50 +33,40 @@ void print_ll(node *front){
 queue *enqueue(queue *front){
     queue *newnode;
     int item;
-    printf("enter data to be inserted in new node at beginning: \n");
+    printf("enter data to be enqueued: \n");
     scanf("%d",&item);
     newnode=createnode(item);
-    newnode->next=head;
+    newnode->next=front;
     front=newnode;
     return(front);
 }
 
-//delete element from beginning
-node *delete_begin(node *head){
-    node *temp=head;
-    head=temp->next;
+//dequeue operation
+queue *dequeue(queue *front){
+    if(isempty()){
+        printf("Queue is empty \n");
+    }
+    node *temp=front;
+    front=temp->next;
     free(temp);
-    return head;
-}
-
-//in it after several enqueue operation to max limit then dequeue after which it size decreases!!
-
-#include<stdio.h>
-#include<stdbool.h>
-
-int queue[100];
-int size;
-int front=-1;
-int rear=-1;
-
-bool isfull(){
-    return rear==size-1;
+    return front;
 }
 
 bool isempty(){
-    return front==-1;
+    return front==NULL;
 }
 
 void enqueue(int value){
-    if(isfull()){
-        printf("queue is full \n");
-        return;
+    queue *newnode=createnode(value);
+    if(rear==NULL){
+        front=newnode;
+        reae=newnode;
     }
-    if(isempty())
-        front=0;
-    rear++;
-    queue[rear]=value;
-    printf("enqueued %d\n",value);
+    else{
+        rear->next=newnode;
+        rear=rear->next;
+    }
+    printf("Enqueued value is %d \n",value);
 }
 
 int dequeue(){
