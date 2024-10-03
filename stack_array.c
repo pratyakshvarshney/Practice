@@ -1,7 +1,7 @@
 #include<stdio.h>
 #include<stdbool.h>
 
-int top=-1,stack[3];
+int top=-1,stack[100];
 int size;
 
 bool isempty(){
@@ -48,7 +48,7 @@ void display(){
 }
 
 int main(){
-    printf("Enter the size of the stack (max 3): ");
+    printf("Enter the size of the stack (max 100): ");
     scanf("%d", &size);
     if (size <= 0 || size > 100) {
         printf("Invalid stack size. Please enter a size between 1 and 100.\n");
