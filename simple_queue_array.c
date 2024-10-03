@@ -57,6 +57,15 @@ void display(){
     printf("\n");
 }
 
+void peek(){
+    if(isempty()){
+        printf("Queue is empty \n");
+    }
+    else{
+        printf("peeked value is: %d",queue[front]);
+    }
+}
+
 int main(){
     printf("Enter the size of the queue (max 100): ");
     scanf("%d", &size);
@@ -71,7 +80,8 @@ int main(){
         printf("1. Enqueue\n");
         printf("2. Dequeue\n");
         printf("3. Display\n");
-        printf("4. Exit\n");
+        printf("4. Peek\n");
+        printf("5. Exit\n");
         printf("Enter your choice: ");
         scanf("%d", &choice);
 
@@ -88,6 +98,9 @@ int main(){
                 display();
                 break;
             case 4:
+                peek();
+                break;
+            case 5:
                 printf("Exiting program.\n");
                 return 0;
             default:
