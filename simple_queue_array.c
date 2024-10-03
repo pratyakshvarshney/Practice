@@ -70,7 +70,7 @@ int main(){
     printf("Enter the size of the queue (max 100): ");
     scanf("%d", &size);
     if (size <= 0 || size > 100) {
-        printf("Invalid stack size. Please enter a size between 1 and 100.\n");
+        printf("Invalid queue size. Please enter a size between 1 and 100.\n");
         return 1; // to represent error
     }
     
