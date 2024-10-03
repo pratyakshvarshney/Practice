@@ -1,3 +1,5 @@
+//in it after several enqueue operation to max limit then dequeue after which it size decreases!!
+
 #include<stdio.h>
 #include<stdbool.h>
 
