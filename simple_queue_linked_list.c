@@ -42,14 +42,19 @@ queue *enqueue(queue *front){
 }
 
 //dequeue operation
-queue *dequeue(queue *front){
+int dequeue(queue *front){
     if(isempty()){
         printf("Queue is empty \n");
+        return -1;
     }
-    node *temp=front;
+    queue *temp=front;
+    int value=temp->data;
     front=temp->next;
+    if(front==NULL){
+        rear=NULL;
+    }
     free(temp);
-    return front;
+    return value;
 }
 
 bool isempty(){
@@ -69,50 +74,23 @@ void enqueue(int value){
     printf("Enqueued value is %d \n",value);
 }
 
-int dequeue(){
+int seek(){
     if(isempty()){
-        printf("queue is empty \n");
+        pritnf("Queue is empty \n");
         return -1;
     }
-    int value=queue[front];
-    if(front==rear){
-        front=-1;
-        rear=-1;
-    }
-    else{
-        front++;
-    }
-    printf("dequeued value is %d \n",value);
-    return value;
-}
-
-void display(){
-    if(isempty()){
-        printf("queue is empty \n");
-        return;
-    }
-    printf("Queue: \n");
-    for(int i=front;i<=rear;i++){
-        printf("%d ",queue[i]);
-    }
-    printf("\n");
+    return front->data;
 }
 
 int main(){
-    printf("Enter the size of the queue (max 100): ");
-    scanf("%d", &size);
-    if (size <= 0 || size > 100) {
-        printf("Invalid stack size. Please enter a size between 1 and 100.\n");
-        return 1; // to represent error
-    }
-    
     int choice,value;
     while (true) {
         printf("\nQueue Operations Menu:\n");
         printf("1. Enqueue\n");
         printf("2. Dequeue\n");
         printf("3. Display\n");
-        printf("4. Exit\n");
+        printf("4. Peek\n");
+        printf("5. Exit\n");
         printf("Enter your choice: ");
         scanf("%d", &choice);
 
@@ -129,57 +107,17 @@ int main(){
                 display();
                 break;
             case 4:
+                peek();
+                break;
+            case 5:
                 printf("Exiting program.\n");
+                while(!isempty())
+                    dequeue;
                 return 0;
             default:
                 printf("Invalid choice. Please try again.\n");
         }
     }
-
-    return 0;
-}
-
-int main(){
-    node *head;
-
-    // creating ll
-    head=createll(head);
-    print_ll(head);
-    
-    // searching an element
-    search(head);
-
-    // insert at beginning
-    head=insert_begin(head);
-    print_ll(head);
-    
-    // insert at end
-    head=insert_end(head);
-    print_ll(head);
-    
-    // insert after a particular node
-    head=insert_after(head);
-    print_ll(head);
-    
-    // insert before a particular node
-    head=insert_before(head);
-    print_ll(head);
-    
-    // delete from beginning
-    head=delete_begin(head);
-    print_ll(head);
-    
-    // delete from end
-    head=delete_end(head);
-    print_ll(head);
-    
-    // delete if value is known
-    head=delete_loc(head);
-    print_ll(head);
-    
-    // reverse the ll
-    head=reverse_ll(head);
-    print_ll(head);
 
     return 0;
 }
