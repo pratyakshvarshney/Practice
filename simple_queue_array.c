@@ -62,7 +62,7 @@ void peek(){
         printf("Queue is empty \n");
     }
     else{
-        printf("peeked value is: %d",queue[front]);
+        printf("peek value is: %d",queue[front]);
     }
 }
 
