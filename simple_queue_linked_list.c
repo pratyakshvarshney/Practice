@@ -1,5 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include<stdbool.h>
 
 //queue definition
 typedef struct queue{
@@ -7,42 +8,37 @@ typedef struct queue{
     struct queue *next;
 }queue;
 
-queue *front,*rear;
-front=NULL;
-rear=NULL;
+queue *front=NULL;
+queue *rear=NULL;
 
 //node definition
 queue *createnode(int data){
-    queue *newnode=(queue *)malloc(sizeof(node));
+    queue *newnode=(queue *)malloc(sizeof(queue));
     newnode->data=data;
     newnode->next=NULL;
     return newnode;
 }
 
+bool isempty(){
+    return front==NULL;
+}
+
 //printing queue
-void display(node *front){
-    printf("Queue is: \n");
-    node *temp=front;
-    while(temp){
-        printf("%d ",temp->data);
-        temp=temp->next;
+void display(){
+    if(isempty())
+        printf("Queue is empty \n");
+    else{
+        printf("Queue is: \n");
+        queue *temp=front;
+        while(temp){
+            printf("%d ",temp->data);
+            temp=temp->next;
+        }
     }
 }
 
-//Enqueue operations
-queue *enqueue(queue *front){
-    queue *newnode;
-    int item;
-    printf("enter data to be enqueued: \n");
-    scanf("%d",&item);
-    newnode=createnode(item);
-    newnode->next=front;
-    front=newnode;
-    return(front);
-}
-
 //dequeue operation
-int dequeue(queue *front){
+int dequeue(){
     if(isempty()){
         printf("Queue is empty \n");
         return -1;
@@ -54,18 +50,15 @@ int dequeue(queue *front){
         rear=NULL;
     }
     free(temp);
-    return value;
-}
-
-bool isempty(){
-    return front==NULL;
+    printf("Dequeued value is %d \n",value);
+    return 0;
 }
 
 void enqueue(int value){
     queue *newnode=createnode(value);
     if(rear==NULL){
         front=newnode;
-        reae=newnode;
+        rear=newnode;
     }
     else{
         rear->next=newnode;
@@ -74,9 +67,9 @@ void enqueue(int value){
     printf("Enqueued value is %d \n",value);
 }
 
-int seek(){
+int peek(){
     if(isempty()){
-        pritnf("Queue is empty \n");
+        printf("Queue is empty \n");
         return -1;
     }
     return front->data;
