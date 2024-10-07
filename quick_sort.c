@@ -1,105 +1,88 @@
-#include <stdio.h>
+#include<stdio.h>
+#define max 50
 
-#define MAX 50 // Maximum size for the array and stacks
-
-// Function to perform partitioning
-int partition(int A[], int BEG, int END) {
-    int LEFT = BEG, RIGHT = END;
-    int LOC = BEG, TEMP;
-
-    while (LEFT != RIGHT) {
-        // Scan from right to left
-        while (A[LOC] <= A[RIGHT] && LOC != RIGHT) {
-            RIGHT--;
+int partition(int a[],int beg,int end){
+    int left=beg,right=end;
+    int pivot=beg,temp;
+    
+    while(left!=right){
+        while(a[pivot]<=a[right]  && pivot!=right){
+            right--;
         }
-        if (LOC == RIGHT) return LOC;
-        if (A[LOC] > A[RIGHT]) {
-            TEMP = A[LOC];
-            A[LOC] = A[RIGHT];
-            A[RIGHT] = TEMP;
-            LOC = RIGHT;
+        if(pivot==right) return pivot;
+        if(a[pivot]>a[right]){
+            temp=a[pivot];
+            a[pivot]=a[right];
+            a[right]=temp;
+            pivot=right;
         }
-
-        // Scan from left to right
-        while (A[LOC] >= A[LEFT] && LOC != LEFT) {
-            LEFT++;
+        
+        while(a[pivot]>=a[left]  && pivot!=left){
+            left++;
         }
-        if (LOC == LEFT) return LOC;
-        if (A[LOC] < A[LEFT]) {
-            TEMP = A[LOC];
-            A[LOC] = A[LEFT];
-            A[LEFT] = TEMP;
-            LOC = LEFT;
+        if(pivot==left) return pivot;
+        if(a[pivot]<a[left]){
+            temp=a[pivot];
+            a[pivot]=a[left];
+            a[left]=temp;
+            pivot=left;
         }
     }
-    return LOC;
+    return pivot;
 }
 
-// Iterative Quick Sort function
-void quickSort(int A[], int N) {
-    int LOWER[MAX], UPPER[MAX], TOP = -1; // Stacks for storing boundary values
-    int BEG, END, LOC;
-
-    if (N > 1) {
-        // Push the initial boundaries onto the stack
-        TOP++;
-        LOWER[TOP] = 0;
-        UPPER[TOP] = N - 1;
+void quicksort(int a[],int n){
+    int lower[max],upper[max],top=-1;
+    int beg,end,pivot;
+    
+    if(n>1){
+        top++;
+        lower[top]=0;
+        upper[top]=n-1;
     }
-
-    while (TOP != -1) {
-        // Pop the sublist boundaries from the stack
-        BEG = LOWER[TOP];
-        END = UPPER[TOP];
-        TOP--;
-
-        // Partition the array and get the location of the pivot
-        LOC = partition(A, BEG, END);
-
-        // If there are elements on the left side of the pivot, push onto the stack
-        if (BEG < LOC - 1) {
-            TOP++;
-            LOWER[TOP] = BEG;
-            UPPER[TOP] = LOC - 1;
+    
+    while(top!=-1){
+        beg=lower[top];
+        end=upper[top];
+        top--;
+        
+        pivot=partition(a,beg,end);
+        
+        if(beg<pivot-1){
+             top++;
+             lower[top]=beg;
+             upper[top]=pivot-1;
         }
-
-        // If there are elements on the right side of the pivot, push onto the stack
-        if (LOC + 1 < END) {
-            TOP++;
-            LOWER[TOP] = LOC + 1;
-            UPPER[TOP] = END;
+        
+        if(pivot+1<end){
+            top++;
+            lower[top]=pivot+1;
+            upper[top]=end;
         }
     }
 }
 
-// Function to print the array
-void printArray(int A[], int N) {
-    for (int i = 0; i < N; i++) {
-        printf("%d ", A[i]);
+void printArray(int a[], int n) {
+    for (int i = 0; i < n; i++) {
+        printf("%d ", a[i]);
     }
     printf("\n");
 }
 
-// Main function
-int main() {
-    int A[MAX], N;
-
-    // Input the array size
-    printf("Enter the number of elements: ");
-    scanf("%d", &N);
-
-    // Input the array elements
-    printf("Enter the elements: ");
-    for (int i = 0; i < N; i++) {
-        scanf("%d", &A[i]);
+int main(){
+    int a[max],n;
+    printf("enter the number of elements \n");
+    scanf("%d",&n);
+    for(int i=0;i<n;i++){
+        printf("enter element %d: ",i);
+        scanf("%d",&a[i]);
     }
-
-    // Perform Quick Sort
-    quickSort(A, N);
-
-    // Print the sorted array
-    printf("Sorted array: ");
-    printArray(A, N);
-
-    return 0;
+    
+    printf("array is: \n");
+    printArray(a,n);
+    
+    quicksort(a,n);
+    
+    printf("sorted array is: \n");
+    printArray(a,n);
 }
