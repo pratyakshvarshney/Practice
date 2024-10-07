@@ -2,63 +2,27 @@
 #define max 50
 
 int partition(int a[],int beg,int end){
-    int left=beg,right=end;
-    int pivot=beg,temp;
-    
-    while(left!=right){
-        while(a[pivot]<=a[right]  && pivot!=right){
-            right--;
-        }
-        if(pivot==right) return pivot;
-        if(a[pivot]>a[right]){
-            temp=a[pivot];
-            a[pivot]=a[right];
-            a[right]=temp;
-            pivot=right;
-        }
-        
-        while(a[pivot]>=a[left]  && pivot!=left){
-            left++;
-        }
-        if(pivot==left) return pivot;
-        if(a[pivot]<a[left]){
-            temp=a[pivot];
-            a[pivot]=a[left];
-            a[left]=temp;
-            pivot=left;
+    int pivot=a[beg];
+    int j=beg;
+    for(int i=beg+1;i<=end;i++){
+        if(a[i]<pivot){
+            j++;
+            int temp=a[i];
+            a[i]=a[j];
+            a[j]=temp;
         }
     }
-    return pivot;
+    int temp = a[beg];
+    a[beg] = a[j];
+    a[j] = temp;
+    return j;
 }
 
-void quicksort(int a[],int n){
-    int lower[max],upper[max],top=-1;
-    int beg,end,pivot;
-    
-    if(n>1){
-        top++;
-        lower[top]=0;
-        upper[top]=n-1;
-    }
-    
-    while(top!=-1){
-        beg=lower[top];
-        end=upper[top];
-        top--;
-        
-        pivot=partition(a,beg,end);
-        
-        if(beg<pivot-1){
-             top++;
-             lower[top]=beg;
-             upper[top]=pivot-1;
-        }
-        
-        if(pivot+1<end){
-            top++;
-            lower[top]=pivot+1;
-            upper[top]=end;
-        }
+void quicksort(int a[],int beg,int end){
+    if (beg < end) {
+        int pivot = partition(a, beg, end);
+        quicksort(a, beg, pivot - 1);
+        quicksort(a, pivot + 1, end);
     }
 }
 
@@ -71,7 +35,7 @@ void printArray(int a[], int n) {
 
 int main(){
     int a[max],n;
-    printf("enter the number of elements \n");
+    printf("enter the number of elements less than equal 50: \n");
     scanf("%d",&n);
     for(int i=0;i<n;i++){
         printf("enter element %d: ",i);
@@ -81,7 +45,7 @@ int main(){
     printf("array is: \n");
     printArray(a,n);
     
-    quicksort(a,n);
+    quicksort(a,0,n-1);
     
     printf("sorted array is: \n");
     printArray(a,n);
