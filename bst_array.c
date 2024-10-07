@@ -43,10 +43,19 @@ void postorder(int i){
 }
 
 int main(){
-    insert(50);
-    insert(56);
-    insert(89);
-    insert(12);
+    int size,value;
+    printf("Enter the no. of entries to be made for the tree (max 10): ");
+    scanf("%d", &size);
+    
+    for (int i = 0; i < max; i++) {
+        tree[i] = 0;
+    }
+    
+    for(int i=0; i<size; i++){
+        printf("Enter a value to insert: ");
+        scanf("%d", &value);
+        insert(value);
+    }
     
     printf("In-order traversal: ");
     inorder(0);
@@ -54,4 +63,6 @@ int main(){
     preorder(0);
     printf("\nPost-order traversal: ");
     postorder(0);
+    
+    return 0;
 }
