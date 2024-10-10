@@ -19,8 +19,8 @@ void insert(int value){
     printf("Tree s full , can't insert %d\n",value);
 }
 
-//return largest element from left child
-int min_index(int  i){
+//return largest element index from left child
+int max_index(int  i){
     while(2*i+2<max && tree[2*i+2]!=0){
         i=2*i+2;
     }
@@ -32,30 +32,29 @@ void delete(int value){
     int i=0;
     while(i<max){
         if(tree[i]==value){
-            if(tree[2*i+1]==0 && tree[2*i+2]==0){
+            if(tree[2*i+1]==0 && tree[2*i+2]==0)
                 tree[i]=0;
-                return;
-            }
-        }
-        else if(tree[2*i+1]==0){
-            tree[i]=tree[2*i+2];
-            tree[2*i+2]=0;
-        }
-        else if(tree[2*i+2]==0){
-            tree[i]=tree[2*i+1];
-            tree[2*i+1]=0;
-        }
-        else{
-            int min = min_index(2*i+1);
-            tree[i]=tree[min];
-            delete(tree[min]);
-        }
+            else if(tree[2*i+1]==0){
+                tree[i]=tree[2*i+2];
+                tree[2*i+2]=0;
+                }
+            else if(tree[2*i+2]==0){
+                tree[i]=tree[2*i+1];
+                tree[2*i+1]=0;
+                }
+            else{
+                int max1 = max_index(2*i+1);
+                tree[i]=tree[max1];
+                delete(tree[max1]);
+                }
         return;
-    }
-    if (value < tree[i])
+        }
+        if (value < tree[i])
             i = 2*i+1;
-    else
+        else
             i = 2*i+2;
+    }
+    printf("value not found!\n");
 }
 
 //inorder traversal LNR
