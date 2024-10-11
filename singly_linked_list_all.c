@@ -32,8 +32,6 @@ void search(node *head){
     int item;
     printf("enter data to be searched: \n");
     scanf("%d",&item);
-    int count=0;
-    node *loc;
     while(temp){
         if(temp->data==item){
             printf("search successful \n");
