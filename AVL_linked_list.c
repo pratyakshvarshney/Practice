@@ -1,113 +1,98 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include<stdio.h>
+#include<stdlib.h>
 
-typedef struct AVLNode {
+typedef struct avl{
     int data;
-    struct AVLNode *left;
-    struct AVLNode *right;
+    struct avl *left;
+    struct avl *right;
     int height;
-} AVLNode;
+}avl;
 
-// Get the height of the node
-int height(AVLNode *node) {
-    return node ? node->height : 0;
+int height(avl *node){
+    return node ? node->height : 0 ;
 }
 
-// Calculate the balance factor
-int balanceFactor(AVLNode *node) {
-    return node ? height(node->left) - height(node->right) : 0;
+int balancefactor(avl *node){
+    return node? height(node->left) - height(node->right) : 0;
 }
 
-// Create a new AVL node
-AVLNode *createNode(int data) {
-    AVLNode *node = (AVLNode *)malloc(sizeof(AVLNode));
-    node->data = data;
-    node->left = node->right = NULL;
-    node->height = 1; // New node is initially at height 1
-    return node;
+avl *createnode(int value){
+    avl *newnode=(avl *)malloc(sizeof(avl));
+    newnode->data=value;
+    newnode->left=newnode->right=NULL;
+    newnode->height=1;
+    return newnode;
 }
 
-// Update the height of a node
-int max(int a, int b) { return (a > b) ? a : b; }
-
-// Left Rotation
-AVLNode *rotateLeft(AVLNode *x) {
-    AVLNode *y = x->right;
-    AVLNode *T2 = y->left;
-
-    y->left = x;
-    x->right = T2;
-
-    x->height = max(height(x->left), height(x->right)) + 1;
-    y->height = max(height(y->left), height(y->right)) + 1;
-
-    return y;
+int max(int a,int b){
+    return (a>b)?a:b;
 }
 
-// Right Rotation
-AVLNode *rotateRight(AVLNode *y) {
-    AVLNode *x = y->left;
-    AVLNode *T2 = x->right;
-
-    x->right = y;
-    y->left = T2;
-
-    y->height = max(height(y->left), height(y->right)) + 1;
-    x->height = max(height(x->left), height(x->right)) + 1;
-
+avl *rotateright(avl *node){
+    avl *x=node->left;
+    avl *temp=x->right;
+    
+    x->right=node;
+    node->left=temp;
+    
+    node->height = max(height(node->left),height(node->right)) + 1 ;
+    x->height = max(height(x->left),height(x->right)) + 1 ; 
+    
     return x;
 }
 
-// Insert a value in the AVL Tree
-AVLNode *insert(AVLNode *node, int data) {
-    if (node == NULL)
-        return createNode(data);
+avl *rotateleft(avl *node){
+    avl *x=node->right;
+    avl *temp=x->left;
+    
+    x->left=node;
+    node->right=temp;
+    
+    node->height = max(height(node->left),height(node->right)) + 1 ;
+    x->height = max(height(x->left),height(x->right)) + 1 ;
+    
+    return x;
+}
 
-    if (data < node->data)
-        node->left = insert(node->left, data);
-    else if (data > node->data)
-        node->right = insert(node->right, data);
+avl *insert(avl *node,int value){
+    if(node==NULL) return createnode(value);
+    if(value < node->data)
+        node->left=insert(node->left,value);
+    else if(value > node->data)
+        node->right=insert(node->right,value);
     else
-        return node; // Duplicate keys not allowed
-
-    node->height = max(height(node->left), height(node->right)) + 1;
-
-    int balance = balanceFactor(node);
-
-    // LL Case
-    if (balance > 1 && data < node->left->data)
-        return rotateRight(node);
-
-    // RR Case
-    if (balance < -1 && data > node->right->data)
-        return rotateLeft(node);
-
-    // LR Case
-    if (balance > 1 && data > node->left->data) {
-        node->left = rotateLeft(node->left);
-        return rotateRight(node);
+        return node;
+        
+    node->height = max(height(node->left),height(node->right)) + 1 ;
+    
+    int balance = balancefactor(node);
+    
+    if(balance > 1 && value < node->left->data){
+        return rotateright(node);
     }
-
-    // RL Case
-    if (balance < -1 && data < node->right->data) {
-        node->right = rotateRight(node->right);
-        return rotateLeft(node);
+    if(balance < -1 && value > node->right->data)
+        return rotateleft(node);
+    if(balance > 1 && value > node->left->data){
+        node->left=rotateleft(node->left);
+        return rotateright(node);
     }
-
+    if(balance < -1 && value < node->right->data){
+        node->right=rotateright(node->right);
+        return rotateleft(node);
+    }
     return node;
 }
 
-// In-order traversal
-void inorderTraversal(AVLNode *root) {
-    if (root != NULL) {
-        inorderTraversal(root->left);
-        printf("%d ", root->data);
-        inorderTraversal(root->right);
+void inorder(avl *node){
+    if(node != NULL){
+        inorder(node->left);
+        printf("%d ",node->data);
+        inorder(node->right);
     }
 }
 
 int main() {
-    AVLNode *root = NULL;
+    avl *root = NULL;
 
     root = insert(root, 10);
     root = insert(root, 20);
@@ -117,7 +102,7 @@ int main() {
     root = insert(root, 25);
 
     printf("In-order traversal of the AVL tree:\n");
-    inorderTraversal(root);
+    inorder(root);
 
     return 0;
-}
+}            
