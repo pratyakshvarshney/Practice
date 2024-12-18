@@ -15,7 +15,7 @@ void countsort(int *arr, int n){
         arr[i] += offset;
     }
     
-    int *count = (int *)calloc(k, sizeof(int));
+    int *count = (int *)calloc(k+1, sizeof(int));
     
     for(int i=0; i<n; i++){
         count[arr[i]]++;
